@@ -4,7 +4,7 @@ import os
 import random  # for random placement of pipes
 
 pygame.font.init()
-# -----------------------------------------------------------------------------------------------#
+# -------------------------------------------------------------------#
 # loading the images and setting the dimensions
 GAME_WIDTH = 500
 GAME_HEIGHT = 600
@@ -22,7 +22,7 @@ BIRD_IMAGE = pygame.transform.scale(BIRD_IMAGE, (BIRD_X, BIRD_Y))
 SCORE_FONT = pygame.font.SysFont("comicsans", 50)
 
 
-# ----------------------------------------------------------------------------------------------#
+# ------------------------------------------------------------------------------#
 
 # creating Classes
 class Bird:
@@ -35,6 +35,7 @@ class Bird:
     def __init__(self, x, y):  # Constructor
         self.x = x  # x, y are the coordinates of the bird
         self.y = y
+        self.tilt = 0  # ??
         self.tickCount = 0
         self.speed = 0
         self.height = self.y
@@ -59,7 +60,7 @@ class Bird:
         self.tickCount = 0
 
     def draw(self, window):
-        bird_display_img = self.IMG;
+        bird_display_img = self.IMG
         new_rect = bird_display_img.get_rect(center=self.image.get_rect(topleft=(self.x, self.y)).center)
         window.blit(bird_display_img, new_rect.topleft)
 
@@ -67,7 +68,7 @@ class Bird:
         return pygame.mask.from_surface(self.IMG)  # create this mask for picture perfect collision
 
 
-######################################################################################################
+################################################################################################
 
 class Pipe:
     PIPE_GAP = 185
@@ -115,7 +116,7 @@ class Pipe:
         return False
 
 
-######################################################################################################
+############################################################################################
 
 class Ground:
     IMAGE = GROUND_IMAGE
@@ -144,7 +145,7 @@ class Ground:
             self.x2 = self.x1 + self.GROUND_DIM  # then initialize pointer to first image
 
 
-######################################################################################################
+###########################################################################################33
 
 def draw_window(window, birds, ground, pipes, score, gen):
     window.blit(BG_IMAGE, (0, 0))
@@ -166,9 +167,9 @@ def draw_window(window, birds, ground, pipes, score, gen):
 def fitnessFunc(genomes, config):
     global GEN
     GEN += 1
-    birds = []
+    birds = [] #Displayed images
     nets = []
-    ge = []
+    ge = [] #The actual birds (Nodes)
 
     for _, g in genomes:
         g.fitness = 0
@@ -213,7 +214,7 @@ def fitnessFunc(genomes, config):
         for pipe in pipes:
             for x, bird in enumerate(birds):
                 if pipe.check_collision(bird, window):
-                    ge[x].fitness -= 1  # Every time a bird collides, decrement its fitness score, the punishment!
+                    ge[x].fitness -= 1  # Everytime a bird collides, 1 value in decremented from its fitness score, the punishment!
                     birds.pop(x)
                     nets.pop(x)  # basically deleting that bird because it died.
                     ge.pop(x)
